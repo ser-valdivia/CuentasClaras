@@ -1,62 +1,83 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sitio en construcción</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="  body {
-            background-color: #f8f9fa;
-            color: #343a40;
-            height: 100vh;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            flex-direction: column;
-            padding: 20px;
-        }
-        .spinner-border {
-            width: 3rem;
-            height: 3rem;
-            margin-bottom: 20px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            animation: fadeIn 2s ease-in-out;
-        }
-        p {
-            font-size: 1.2rem;
-            animation: fadeIn 3s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            p {
-                font-size: 1rem;
-            }
-        }
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.5rem;
-            }
-            p {
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sitio en Construcción</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Estilos personalizados -->
+  <style>
+    body {
+      background: linear-gradient(135deg, #f8f9fa, #dee2e6);
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .icon {
+      font-size: 10vw;
+      color: #ffc107;
+      animation: bounce 1.5s infinite;
+    }
+
+    .construction-text {
+      font-size: 6vw;
+      max-width: 90%;
+      font-weight: 700;
+      color: #dc3545;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 0.75;
+      }
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-1rem);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .construction-text {
+        font-size: 3rem;
+      }
+      .icon {
+        font-size: 4rem;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .construction-text {
+        font-size: 3.5rem;
+      }
+      .icon {
+        font-size: 5rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="spinner-border text-warning" role="status">
-        <span class="visually-hidden">Cargando...</span>
-    </div>
-    <h1>Sitio en construcción</h1>
-    <p>Estamos trabajando para traerte algo genial. ¡Vuelve pronto!</p>
+  <div>
+    <div class="icon mb-3">🚧</div>
+    <div class="construction-text">Sitio en construcción</div>
+  </div>
 </body>
 </html>

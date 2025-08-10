@@ -1,25 +1,111 @@
-
-              <!doctype html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  </head>
-  <body>
-    <div class="content-fluid">
-        <div class="row">
-          <div class="col-12 col-lg-8 p-2 text-center"><h1>Nombre del evento!!</h1></div>
-          <div class="col-12 col-lg-8 p-2">
 
-          </div>
-          <div class="col"></div>
-        </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="assets/css/estilos.css">
+  
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Encabezado: ocupa todo en móvil y tablet, 8 columnas en PC -->
+      <div class="col-12 col-md-12 col-lg-8 p-2 text-center">
+        <!-- Título editable centrado -->
+        <h1 id="editableTitle" contenteditable="false" style="cursor:pointer; display: inline-block; margin: 0 auto;">Nombre del evento!!</h1>
       </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-  </body>
+      <!-- Contenido principal: igual que arriba -->
+      <div class="col-12 col-md-12 col-lg-8 p-2">
+        <div id="filasContainer">
+          <!-- Fila inicial -->
+          <div class="row mb-2 align-items-center fila-datos">
+            <div class="col-auto">
+              <input type="text" class="form-control nombreInput" placeholder="Nombre">
+            </div>
+            <div class="col-auto d-none conceptoCol">
+              <input type="text" class="form-control conceptoInput" placeholder="Concepto">
+            </div>
+            <div class="col-auto d-none montoCol">
+              <input type="number" class="form-control montoInput" placeholder="Monto">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ...código existente... -->
+      
+      <script>
+        function configurarFila(fila) {
+          const nombreInput = fila.querySelector('.nombreInput');
+          const conceptoCol = fila.querySelector('.conceptoCol');
+          const conceptoInput = fila.querySelector('.conceptoInput');
+          const montoCol = fila.querySelector('.montoCol');
+          const montoInput = fila.querySelector('.montoInput');
+      
+          nombreInput.addEventListener('input', function () {
+            if (nombreInput.value.trim() !== "") {
+              conceptoCol.classList.remove('d-none');
+              montoCol.classList.remove('d-none');
+              // Si es la última fila, agrega una nueva fila vacía
+              const filasContainer = document.getElementById('filasContainer');
+              if (fila === filasContainer.lastElementChild) {
+                agregarNuevaFila();
+              }
+            } else {
+              conceptoCol.classList.add('d-none');
+              montoCol.classList.add('d-none');
+              conceptoInput.value = "";
+              montoInput.value = "";
+            }
+          });
+        }
+      
+        function agregarNuevaFila() {
+          const filasContainer = document.getElementById('filasContainer');
+          const nuevaFila = document.createElement('div');
+          nuevaFila.className = "row mb-1 align-items-center fila-datos";
+          nuevaFila.innerHTML = `
+            <div class="col-auto">
+              <input type="text" class="form-control nombreInput" placeholder="Nombre">
+            </div>
+            <div class="col-auto d-none conceptoCol">
+              <input type="text" class="form-control conceptoInput" placeholder="Concepto">
+            </div>
+            <div class="col-auto d-none montoCol">
+              <input type="number" class="form-control montoInput" placeholder="Monto">
+            </div>
+          `;
+          filasContainer.appendChild(nuevaFila);
+          configurarFila(nuevaFila);
+        }
+      
+        // Configura la fila inicial
+        document.querySelectorAll('.fila-datos').forEach(configurarFila);
+      </script>
+      <!-- ...código existente... -->
+        <p>Aquí el contenido...</p>
+      </div>
+
+      <!-- Columna lateral: se oculta en móvil y tablet -->
+      <div class="d-none d-lg-block col-lg"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+<script src="assets/js/funciones.js"></script>
+</body>
+
 </html>

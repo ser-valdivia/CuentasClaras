@@ -8,49 +8,128 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <link rel="stylesheet" href="assets/css/estilos.css">
-  
 </head>
 
 <body>
-  <div class="container-fluid">
-    <div class="row">
-      <!-- Encabezado: ocupa todo en móvil y tablet, 8 columnas en PC -->
-      <div class="col-12 col-md-12 col-lg-8 p-2 text-center">
-        <!-- Título editable centrado -->
-        <h1 id="editableTitle" contenteditable="false" style="cursor:pointer; display: inline-block; margin: 0 auto;">Nombre del evento!!</h1>
-      </div>
+  <div class="container-fluid py-3">
+    <div class="row justify-content-center">
+      <!-- Columna central principal -->
+      <div class="col-12 col-md-10 col-lg-8">
+        <!-- Encabezado -->
+        <div class="text-center mb-3">
+          <h1 id="editableTitle" contenteditable="false" maxlength="30" style="cursor:pointer; display: inline-block; margin: 0 auto;">Nombre del evento</h1>
+        </div>
 
-      <!-- Contenido principal: igual que arriba -->
-      <div class="col-12 col-md-12 col-lg-8 p-2">
+        <!-- Botón para descargar PDF -->
+        <div class="mb-3 text-end">
+          <button id="btnDescargarPDF" class="btn btn-success">
+            Descargar PDF
+          </button>
+        </div>
+
+        <!-- Contenido principal -->
         <div id="filasContainer">
           <!-- Fila inicial -->
-          <div class="row mb-2 align-items-center fila-datos">
+          <div class="row mb-2 align-items-center fila-datos gx-2">
             <div class="col-auto">
               <button type="button" class="btn btn-danger btn-sm btn-eliminar-fila rounded-circle" title="Eliminar fila">&times;</button>
             </div>
-            <div class="col-auto">
+            <div class="col-12 col-sm-auto mt-2 mt-sm-0">
               <input type="text" class="form-control nombreInput" placeholder="Nombre">
             </div>
-            <div class="col-auto d-none conceptoCol">
+            <div class="col-12 col-sm-auto d-none conceptoCol mt-2 mt-sm-0">
               <input type="text" class="form-control conceptoInput" placeholder="Concepto">
             </div>
-            <div class="col-auto d-none montoCol">
+            <div class="col-12 col-sm-auto d-none montoCol mt-2 mt-sm-0">
               <input type="number" class="form-control montoInput" placeholder="Monto" value="0">
             </div>
-            <div class="col d-none nombres-listado"></div>
+            <div class="col-12 col-sm d-none nombres-listado mt-2 mt-sm-0"></div>
+          </div>
+        </div>
+
+        <!-- Listado de deudas dinámico -->
+        <div class="row mt-4">
+          <div class="col-12">
+            <h5>Resumen de deudas</h5>
+            <ul id="resumenDeudas" class="list-group"></ul>
           </div>
         </div>
       </div>
-      
-      <!-- Listado de deudas dinámico -->
-      <div class="row mt-4">
-  <div class="col-12 col-md-12 col-lg-8 p-2">
-    <h5>Resumen de deudas</h5>
-    <ul id="resumenDeudas" class="list-group"></ul>
+    </div>
   </div>
-</div>
 
-<script>
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+  <script src="assets/js/funciones.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    document.getElementById('btnDescargarPDF').addEventListener('click', function () {
+      const container = document.querySelector('.container-fluid');
+
+      // Guardar clases originales
+      const originalClass = container.className;
+      // Quitar padding y márgenes agregando una clase temporal
+      container.className += ' p-0 m-0';
+
+      // Generar nombre de archivo con fecha y hora
+      const now = new Date();
+      const pad = n => n.toString().padStart(2, '0');
+      const filename = `CuentasClaras_${now.getFullYear()}_${pad(now.getMonth() + 1)}_${pad(now.getDate())}_${pad(now.getHours())}_${pad(now.getMinutes())}.pdf`;
+
+      // Opciones para html2pdf con márgenes mínimos y escala ajustada
+      const opt = {
+        margin: [0, 0, 0, 0], // Sin márgenes
+        filename: filename,
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 1.1, useCORS: true, backgroundColor: "#fff" },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opt).from(container).save().then(() => {
+        // Restaurar clases originales después de generar el PDF
+        container.className = originalClass;
+      });
+    });
+  </script>
+  <script>
+  // Limitar editableTitle a 30 caracteres
+  const title = document.getElementById('editableTitle');
+  const defaultText = "Nombre del evento!!";
+  title.addEventListener('dblclick', function () {
+    title.contentEditable = true;
+    title.textContent = "";
+    title.focus();
+    title.style.border = "1px dashed #007bff";
+  });
+  title.addEventListener('input', function () {
+    if (title.textContent.length > 30) {
+      title.textContent = title.textContent.slice(0, 30);
+      // Mueve el cursor al final
+      const range = document.createRange();
+      const sel = window.getSelection();
+      range.selectNodeContents(title);
+      range.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  });
+  title.addEventListener('blur', function () {
+    title.contentEditable = false;
+    title.style.border = "none";
+    if (title.textContent.trim() === "") {
+      title.textContent = defaultText;
+    }
+  });
+</script>
+  <script>
 function configurarFila(fila) {
   const nombreInput = fila.querySelector('.nombreInput');
   const conceptoCol = fila.querySelector('.conceptoCol');
@@ -59,6 +138,13 @@ function configurarFila(fila) {
   const montoInput = fila.querySelector('.montoInput');
   const listadoCol = fila.querySelector('.nombres-listado');
   const btnEliminar = fila.querySelector('.btn-eliminar-fila');
+
+  // Limitar los textbox a 25 caracteres
+  nombreInput.setAttribute('maxlength', 25);
+  if (conceptoInput) conceptoInput.setAttribute('maxlength', 25);
+
+  // No permitir números negativos en monto
+  montoInput.setAttribute('min', 0);
 
   nombreInput.addEventListener('input', function () {
     const filasContainer = document.getElementById('filasContainer');
@@ -89,6 +175,8 @@ function configurarFila(fila) {
   });
 
   montoInput.addEventListener('input', function () {
+    // No permitir valores negativos manualmente
+    if (parseFloat(montoInput.value) < 0) montoInput.value = 0;
     calcularDeudas();
   });
 
@@ -111,7 +199,8 @@ function configurarFila(fila) {
     }
   });
 }
-
+</script>
+  <script>
 function agregarNuevaFila() {
   const filasContainer = document.getElementById('filasContainer');
   const nuevaFila = document.createElement('div');
@@ -277,25 +366,7 @@ document.getElementById('filasContainer').addEventListener('change', function(e)
     calcularDeudas();
   }
 });
-</script>
-        <p>Aquí el contenido...</p>
-      </div>
-
-      <!-- Columna lateral: se oculta en móvil y tablet -->
-      <div class="d-none d-lg-block col-lg"></div>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-    crossorigin="anonymous"></script>
-<script src="assets/js/funciones.js"></script>
+  </script>
 </body>
 
 </html>

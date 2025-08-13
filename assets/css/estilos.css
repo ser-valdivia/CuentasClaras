@@ -1,14 +1,59 @@
 /* Móviles */
 @media (max-width: 767.98px) {
   /* estilos para pantallas <768px */
+      #filasContainer .fila-datos > div {
+      margin-bottom: 8px;
+    }
+    #filasContainer .fila-datos {
+      flex-direction: column !important;
+      align-items: stretch !important;
+    }
+    #filasContainer .nombres-listado label {
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+    #filasContainer .nombres-listado {
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
 }
 
 /* Tablets */
 @media (min-width: 768px) and (max-width: 991.98px) {
   /* estilos para pantallas entre 768px y 991px */
+        #filasContainer .fila-datos > div {
+      margin-bottom: 8px;
+    }
+    #filasContainer .fila-datos {
+      flex-direction: column !important;
+      align-items: stretch !important;
+    }
+    #filasContainer .nombres-listado label {
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+    #filasContainer .nombres-listado {
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
 }
 
 /* PC */
 @media (min-width: 992px) {
   /* estilos para pantallas ≥992px */
+          #filasContainer .fila-datos > div {
+      margin-bottom: 8px;
+    }
+    #filasContainer .fila-datos {
+      /*flex-direction: column !important;*/
+      /* align-items: stretch !important; */
+    }
+    #filasContainer .nombres-listado label {
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+    #filasContainer .nombres-listado {
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
 }

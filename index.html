@@ -35,12 +35,12 @@
               <button type="button" class="btn btn-danger btn-sm btn-eliminar-fila rounded-circle" title="Eliminar fila">&times;</button>
             </div>
             <div class="col-12 col-sm-auto mt-2 mt-sm-0">
-              <input type="text" class="form-control nombreInput" placeholder="Nombre">
+              <input type="text" class="form-control nombreInput ms-3" placeholder="Nombre">
             </div>
             <div class="col-12 col-sm-auto d-none conceptoCol mt-2 mt-sm-0">
-              <input type="text" class="form-control conceptoInput" placeholder="Concepto">
+              <input type="text" class="form-control conceptoInput ms-3" placeholder="Concepto">
             </div>
-            <div class="col-12 col-sm-auto d-none montoCol mt-2 mt-sm-0">
+            <div class="col-12 col-sm-auto d-none montoCol mt-2 mt-sm-0 ms-3">
               <input type="number" class="form-control montoInput" placeholder="Monto" value="0">
             </div>
             <div class="col-12 col-sm d-none nombres-listado mt-2 mt-sm-0"></div>
@@ -86,7 +86,7 @@
 
       // Opciones para html2pdf con márgenes mínimos y escala ajustada
       const opt = {
-        margin: [0, 0, 0, 0], // Sin márgenes
+        margin: [10, 20, 10, 20], // Sin márgenes
         filename: filename,
         image: { type: 'jpeg', quality: 1 },
         html2canvas: { scale: 1.1, useCORS: true, backgroundColor: "#fff" },
@@ -147,6 +147,15 @@ function configurarFila(fila) {
   montoInput.setAttribute('min', 0);
 
   nombreInput.addEventListener('input', function () {
+    // Capitalizar la primera letra de cada palabra
+    let valor = nombreInput.value;
+    valor = valor.replace(/\b\w/g, l => l.toUpperCase());
+    if (valor !== nombreInput.value) {
+      const pos = nombreInput.selectionStart;
+      nombreInput.value = valor;
+      nombreInput.setSelectionRange(pos, pos);
+    }
+
     const filasContainer = document.getElementById('filasContainer');
     if (nombreInput.value.trim() !== "") {
       conceptoCol.classList.remove('d-none');
@@ -210,13 +219,13 @@ function agregarNuevaFila() {
       <button type="button" class="btn btn-danger btn-sm btn-eliminar-fila rounded-circle" title="Eliminar fila">&times;</button>
     </div>
     <div class="col-auto">
-      <input type="text" class="form-control nombreInput" placeholder="Nombre">
+      <input type="text" class="form-control nombreInput col-auto mt-2 mt-sm-0" placeholder="Nombre">
     </div>
     <div class="col-auto d-none conceptoCol">
-      <input type="text" class="form-control conceptoInput" placeholder="Concepto">
+      <input type="text" class="form-control conceptoInput col-auto mt-2 mt-sm-0" placeholder="Concepto">
     </div>
     <div class="col-auto d-none montoCol">
-      <input type="number" class="form-control montoInput" placeholder="Monto" value="0">
+      <input type="number" class="form-control montoInput col-auto mt-2 mt-sm-0" placeholder="Monto" value="0">
     </div>
     <div class="col d-none nombres-listado"></div>
   `;
